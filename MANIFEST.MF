@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: sedna
+Specification-Vendor: Sangar
+Specification-Version: 1
+Implementation-Title: sedna-1.18.2-forge
+Implementation-Version: 1.0.14
+Implementation-Vendor: perkinslr
+Implementation-Timestamp: 2025-02-13T15:30:00+0700
+
