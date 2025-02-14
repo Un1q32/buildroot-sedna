@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 git clone https://github.com/perkinslr/buildroot-sedna
 git clone https://github.com/perkinslr/buildroot --depth=1
