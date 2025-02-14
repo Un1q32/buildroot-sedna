@@ -46,10 +46,10 @@ popd
 mkdir merged || exit 1 
 echo "Making Merged Jar!"
 pushd merged || exit 1 
-unp ../buildroot/build/libs/*.jar -- -o || exit 1  
-unp ../ceres/build/libs/*.jar -- -o || exit 1  
-unp ../sedna-mc/build/libs/*.jar -- -o || exit 1  
-unp ../sedna/build/libs/*.jar -- -o || exit 1  
+unzip -o ../buildroot/build/libs/*.jar
+unzip -o ../ceres/build/libs/*.jar
+unzip -o ../sedna-mc/build/libs/*.jar
+unzip -o ../sedna/build/libs/*.jar
 cp ../buildroot-sedna/MANIFEST.MF META-INF || exit 1  
 
 zip -9 -r ../sedna.jar ./* || exit 1  
