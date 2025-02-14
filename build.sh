@@ -58,7 +58,7 @@ rm -rf sedna sedna-mc ceres
 
 pushd oc2r
 mkdir libs
-mv ../sedna.jar libs/
+cp ../sedna.jar libs/
 
 git checkout 1.18.x
 ./gradlew build
