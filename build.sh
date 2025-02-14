@@ -7,6 +7,8 @@ cp buildroot-sedna/config buildroot/.config
 cp buildroot-sedna/linuxconfig buildroot
 pushd buildroot
 
+export JOBS="-j$(python -c 'print(__import__("os").cpu_count() * 3 // 4)') -l$(python -c 'print(__import__("os").cpu_count() * 3 // 4)')"
+
 make $JOBS linux-configure
 mv linuxconfig ./output/build/linux-6*/.config
 make $JOBS
