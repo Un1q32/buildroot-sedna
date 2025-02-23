@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # shellcheck disable=2086
 
-git clone https://github.com/perkinslr/buildroot-sedna && \
-git clone https://github.com/perkinslr/buildroot --depth=1 && \
+git clone https://github.com/OpenComputers2-Reimagined/buildroot-sedna && \
+git clone https://github.com/OpenComputers2-Reimagined/buildroot --depth=1 && \
 
 cp buildroot-sedna/config buildroot/.config && \
 cp buildroot-sedna/linuxconfig buildroot && \
