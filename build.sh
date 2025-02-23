@@ -4,8 +4,6 @@
 git clone https://github.com/OpenComputers2-Reimagined/buildroot-sedna && \
 git clone https://github.com/OpenComputers2-Reimagined/buildroot --depth=1 && \
 
-cp buildroot-sedna/config buildroot/.config && \
-cp buildroot-sedna/linuxconfig buildroot && \
 pushd buildroot || exit 1
 
 
@@ -21,8 +19,7 @@ jobs=$((cpus * 2 / 3))
 
 export JOBS="-j$jobs -l$jobs"
 
-make $JOBS linux-configure  || exit 1 
-mv linuxconfig ./output/build/linux-6*/.config || exit 1
+make $JOBS linux-configure || exit 1
 make $JOBS || exit 1
 
 mkdir -p src/main/resources/generated/ 
