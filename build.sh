@@ -19,7 +19,6 @@ jobs=$((cpus * 2 / 3))
 
 export JOBS="-j$jobs -l$jobs"
 
-make $JOBS linux-configure || exit 1
 make $JOBS || exit 1
 
 mkdir -p src/main/resources/generated/ 
