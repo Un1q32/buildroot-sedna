@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shellcheck disable=2086
 
 git clone https://github.com/perkinslr/buildroot-sedna && \
 git clone https://github.com/perkinslr/buildroot --depth=1 && \
@@ -7,7 +8,19 @@ cp buildroot-sedna/config buildroot/.config && \
 cp buildroot-sedna/linuxconfig buildroot && \
 pushd buildroot || exit 1
 
-export JOBS="-j$(python -c 'print(__import__("os").cpu_count() * 3 // 4)') -l$(python -c 'print(__import__("os").cpu_count() * 3 // 4)')"
+
+if command -v nproc > /dev/null; then
+    cpus=$(nproc)
+elif sysctl -n hw.ncpu > /dev/null 2>&1; then
+    cpus=$(sysctl -n hw.ncpu)
+else
+    cpus=1
+fi
+
+jobs=$((cpus * 2 / 3))
+[ "$jobs" = 0 ] && jobs=1
+
+export JOBS="-j$jobs -l$jobs"
 
 make $JOBS linux-configure  || exit 1 
 mv linuxconfig ./output/build/linux-6*/.config || exit 1
@@ -18,15 +31,15 @@ cp output/images/rootfs.cramfs src/main/resources/generated/ || exit 1
 
 ./gradlew build || exit 1
 
-popd
+popd || exit 1
 
-git clone https://github.com/fnuecke/ceres/ || exit 1
+git clone https://github.com/fnuecke/ceres || exit 1
 
 pushd ceres || exit 1 
 chmod +x gradlew || exit 1 
 ./gradlew build || exit 1 
 
-popd
+popd || exit 1
 git clone https://github.com/perkinslr/sedna || exit 1 
 
 mkdir sedna/libs || exit 1 
@@ -36,12 +49,12 @@ pushd sedna || exit 1
 chmod +x gradlew || exit 1 
 ./gradlew build || exit 1 
 
-popd
+popd || exit 1
 
 git clone https://github.com/perkinslr/sedna-mc --depth=1 || exit 1 
 pushd sedna-mc || exit 1 
 ./gradlew build || exit 1 
-popd
+popd || exit 1
 
 mkdir merged || exit 1 
 echo "Making Merged Jar!"
@@ -54,7 +67,7 @@ cp ../buildroot-sedna/MANIFEST.MF META-INF || exit 1
 
 zip -9 -r ../sedna.jar ./* || exit 1  
 
-popd
+popd || exit 1
 git clone https://github.com/perkinslr/oc2r || exit 1 
 
 rm -rf sedna sedna-mc ceres || exit 1  
@@ -73,6 +86,3 @@ git checkout 1.19.2
 wget https://proxy-maven.covers1624.net/repository/maven-public/mrtjp/ProjectRed/1.19.2-4.19.0-beta%2B33/ProjectRed-1.19.2-4.19.0-beta%2B33-api.jar -O libs/ProjectRed.jar
 
 ./gradlew build
-
-
-
